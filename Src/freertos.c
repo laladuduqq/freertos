@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
+#include "BMI088.h"
 #include "bsp_uart.h"
 #include "task.h"
 #include "main.h"
@@ -105,6 +106,7 @@ void MX_FREERTOS_Init(void) {
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
+static BMI088_GET_Data_t bmi088_data;
 /**
   * @brief  Function implementing the defaultTask thread.
   * @param  argument: Not used
@@ -119,6 +121,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
+    bmi088_data=BMI088_GET_DATA();
     osDelay(1);
   }
   /* USER CODE END StartDefaultTask */

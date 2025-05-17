@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "BMI088.h"
 #include "RGB.h"
 #include "cmsis_os.h"
 #include "adc.h"
@@ -128,6 +129,7 @@ int main(void)
   if (elog_user_init() == ELOG_NO_ERR) 
   { elog_start();}
   RGB_init();
+  BMI088_init();
   /* USER CODE END 2 */
 
   /* Init scheduler */
