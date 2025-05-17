@@ -22,6 +22,7 @@
 #include "BMI088.h"
 #include "bsp_uart.h"
 #include "cmsis_os2.h"
+#include "offline.h"
 #include "systemwatch.h"
 #include "task.h"
 #include "main.h"
@@ -141,6 +142,7 @@ void StartDefaultTask(void *argument)
 /* USER CODE BEGIN Application */
 void InitTask(void *argument) {
   SystemWatch_Init();
+  offline_init();
   osThreadExit();
 }
 /* USER CODE END Application */
