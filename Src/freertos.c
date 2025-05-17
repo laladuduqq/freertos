@@ -21,6 +21,8 @@
 #include "FreeRTOS.h"
 #include "BMI088.h"
 #include "bsp_uart.h"
+#include "cmsis_os2.h"
+#include "systemwatch.h"
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
@@ -47,7 +49,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+static osThreadId_t initTaskHandle;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -59,6 +61,7 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+void InitTask(void *argument); // 添加初始化任务函数声明
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -73,6 +76,11 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
+  const osThreadAttr_t initTask_attributes = {
+    .name = "initTask",
+    .stack_size = 256 * 4,      // 初始化任务需要稍大栈空间
+    .priority = (osPriority_t) osPriorityRealtime, // 高优先级确保优先执行 
+  };
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -96,7 +104,7 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  initTaskHandle = osThreadNew(InitTask, NULL, &initTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -117,10 +125,12 @@ void StartDefaultTask(void *argument)
 {
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
+  SystemWatch_RegisterTask(defaultTaskHandle,"defaultTask");
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for(;;)
   {
+    SystemWatch_ReportTaskAlive(osThreadGetId());
     bmi088_data=BMI088_GET_DATA();
     osDelay(1);
   }
@@ -129,6 +139,9 @@ void StartDefaultTask(void *argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+void InitTask(void *argument) {
+  SystemWatch_Init();
+  osThreadExit();
+}
 /* USER CODE END Application */
 

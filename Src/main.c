@@ -29,6 +29,8 @@
 #include "rng.h"
 #include "rtc.h"
 #include "spi.h"
+#include "stm32f407xx.h"
+#include "systemwatch.h"
 #include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
@@ -221,7 +223,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if (htim->Instance == TIM6)
+  {
+    sysytemwatch_it_callback();
+  }
   /* USER CODE END Callback 1 */
 }
 

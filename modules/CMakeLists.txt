@@ -8,6 +8,7 @@ add_library(modules STATIC
         RGB/RGB.c 
         BMI088/BMI088.c 
         IST8310/IST8310.c
+        systemwatch/systemwatch.c
 )
 
 # 设置包含目录
@@ -17,6 +18,7 @@ target_include_directories(modules
         ${CMAKE_CURRENT_SOURCE_DIR}/RGB
         ${CMAKE_CURRENT_SOURCE_DIR}/BMI088
         ${CMAKE_CURRENT_SOURCE_DIR}/IST8310
+        ${CMAKE_CURRENT_SOURCE_DIR}/systemwatch
 )
 
 # 链接必要的库
