@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include "cmsis_os2.h"
 #include "SEGGER_RTT.h"
+#include "stm32f407xx.h"
 
 
 /* 互斥锁用于日志输出保护 */
@@ -123,11 +124,18 @@ const char *elog_port_get_p_info(void) {
  *
  * @return current thread name
  */
-const char *elog_port_get_t_info(void) {
-    /* add your code here */
-    return osThreadGetName(osThreadGetId());
+ const char *elog_port_get_t_info(void) {
+    /* 添加临界区保护 */
+    osKernelState_t state = osKernelGetState();
+    if (state == osKernelRunning) {
+        osThreadId_t thread_id = osThreadGetId();
+        if (thread_id != NULL) {
+            return osThreadGetName(thread_id);
+        }
+    }
+    return "UnknownThread"; // 安全返回值
 }
-
+/* 在elog_user_init()之前声明 */
 ElogErrCode elog_user_init(void) {
     ElogErrCode result;
 
