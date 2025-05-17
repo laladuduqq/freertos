@@ -23,6 +23,7 @@
 #include "bsp_uart.h"
 #include "cmsis_os2.h"
 #include "offline.h"
+#include "sbus.h"
 #include "systemwatch.h"
 #include "task.h"
 #include "main.h"
@@ -143,6 +144,7 @@ void StartDefaultTask(void *argument)
 void InitTask(void *argument) {
   SystemWatch_Init();
   offline_init();
+  Remote_init();
   osThreadExit();
 }
 /* USER CODE END Application */

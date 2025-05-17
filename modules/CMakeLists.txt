@@ -10,6 +10,7 @@ add_library(modules STATIC
         IST8310/IST8310.c
         systemwatch/systemwatch.c
         offline/offline.c
+        REMOTE/sbus.c
 )
 
 # 设置包含目录
@@ -21,6 +22,7 @@ target_include_directories(modules
         ${CMAKE_CURRENT_SOURCE_DIR}/IST8310
         ${CMAKE_CURRENT_SOURCE_DIR}/systemwatch
         ${CMAKE_CURRENT_SOURCE_DIR}/offline
+        ${CMAKE_CURRENT_SOURCE_DIR}/REMOTE
 )
 
 # 链接必要的库
