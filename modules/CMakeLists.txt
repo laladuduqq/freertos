@@ -7,6 +7,7 @@ add_library(modules STATIC
         algorithm/LQR.c
         RGB/RGB.c 
         BMI088/BMI088.c 
+        IST8310/IST8310.c
 )
 
 # 设置包含目录
@@ -15,6 +16,7 @@ target_include_directories(modules
         ${CMAKE_CURRENT_SOURCE_DIR}/algorithm
         ${CMAKE_CURRENT_SOURCE_DIR}/RGB
         ${CMAKE_CURRENT_SOURCE_DIR}/BMI088
+        ${CMAKE_CURRENT_SOURCE_DIR}/IST8310
 )
 
 # 链接必要的库
