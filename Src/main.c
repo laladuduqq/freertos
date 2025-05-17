@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "RGB.h"
 #include "cmsis_os.h"
 #include "adc.h"
 #include "can.h"
@@ -126,6 +127,7 @@ int main(void)
   SEGGER_RTT_Init();
   if (elog_user_init() == ELOG_NO_ERR) 
   { elog_start();}
+  RGB_init();
   /* USER CODE END 2 */
 
   /* Init scheduler */
